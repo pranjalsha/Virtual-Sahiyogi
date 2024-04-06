@@ -10,14 +10,14 @@ dotenv.config();
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "-", // Your OpenAI API key here, I used "-" to avoid errors when the key is not set but you should not do that
 });
-
+const apiKy=process.env.OPENAI_API_KEY
 const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;
 const voiceID = "kgG7dCoKCfLehAPWkJOE";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-const port = 3009;
+const port = 3008;
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -74,10 +74,10 @@ app.post("/chat", async (req, res) => {
     });
     return;
   }
-  if (!elevenLabsApiKey || openai.apiKey === "-") {
+  if (!elevenLabsApiKey || apiKy === "") {
     res.send({
       messages: [
-        {
+        { 
           text: "Please my dear, don't forget to add your API keys!",
           audio: await audioFileToBase64("audios/api_0.wav"),
           lipsync: await readJsonTranscript("audios/api_0.json"),
